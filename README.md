@@ -20,6 +20,12 @@ Slides follow:
 - HTML: `presentations/EDA03_heart_health.html`
 - PowerPoint: `presentations/EDA03_heart_health.pptx`
 
+## Assignment deliverables
+
+- Case study: `docs/CASE_STUDY.md`
+- Solution guide: `docs/SOLUTION_GUIDE.md`
+- Additional resources: `docs/ADDITIONAL_RESOURCES.md`
+
 ## Setup
 
 ```bash

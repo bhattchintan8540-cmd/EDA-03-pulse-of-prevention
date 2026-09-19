@@ -13,7 +13,7 @@ from sklearn.metrics import classification_report, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from .config import project_output, savefig
+from .config import ROOT, project_output, savefig
 from .download import load_heart
 
 CP_MAP = {0: "typical angina", 1: "atypical angina", 2: "non-anginal pain", 3: "asymptomatic"}
@@ -141,6 +141,18 @@ def run() -> dict:
         ],
         "medium": [
             {"q": "Correlation age vs cholesterol", "a": round(age_chol, 4)},
+            {
+                "q": "Chest pain type mix by age group",
+                "a": (
+                    pd.crosstab(
+                        pd.cut(df["age"], bins=[20, 40, 50, 60, 80], labels=["21-40", "41-50", "51-60", "61-80"]),
+                        df["cp"],
+                        normalize="index",
+                    )
+                    .round(3)
+                    .to_dict()
+                ),
+            },
             {"q": "Mean max HR by exercise angina", "a": hr_exang},
             {
                 "q": "Resting BP male vs female (Welch t-test)",
@@ -228,7 +240,34 @@ def run() -> dict:
             "Collaborate with clinicians to recode features and refresh the model as new labeled visits arrive.",
         ],
         "qa": qa,
-        "figures": [str(p.relative_to(out.parent.parent)) for p in sorted(fig_dir.glob("*.png"))],
+        "figures": [p.relative_to(ROOT).as_posix() for p in sorted(fig_dir.glob("*.png"))],
+        "data_dictionary": {
+            "age": "Patient age",
+            "sex": "1 = male, 0 = female",
+            "cp": "Chest pain type (0-3)",
+            "trestbps": "Resting blood pressure (mm Hg)",
+            "chol": "Serum cholesterol (mg/dl)",
+            "fbs": "Fasting blood sugar > 120 mg/dl",
+            "restecg": "Resting ECG result (0-2)",
+            "thalach": "Maximum heart rate achieved",
+            "exang": "Exercise-induced angina",
+            "oldpeak": "ST depression vs rest",
+            "slope": "Peak exercise ST slope",
+            "ca": "Major vessels colored by fluoroscopy",
+            "thal": "Thalassemia code",
+            "target": "Heart-disease diagnosis (1 = yes)",
+        },
+        "additional_resources": [
+            "https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset",
+            "UCI Heart Disease data documentation",
+            "docs/CASE_STUDY.md, docs/SOLUTION_GUIDE.md",
+        ],
+        "resume_snippet": (
+            "Pulse of Prevention: Heart Health Data Analysis (Python, Pandas, Matplotlib, Seaborn)\n"
+            "- Conducted in-depth analysis of cardiology data, identifying critical risk factors.\n"
+            "- Executed data cleaning and preprocessing, then a logistic baseline for risk ranking.\n"
+            "- Delivered visualizations and prevention recommendations for HealthPulse Analytics."
+        ),
         "stakeholders": {
             "internal": ["Management", "Healthcare providers", "Data analysts"],
             "external": ["Patients", "Cardiology research institute", "Policymakers"],

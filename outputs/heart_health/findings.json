@@ -118,6 +118,35 @@
         "a": 0.1989
       },
       {
+        "q": "Chest pain type mix by age group",
+        "a": {
+          "0": {
+            "21-40": 0.333,
+            "41-50": 0.382,
+            "51-60": 0.504,
+            "61-80": 0.544
+          },
+          "1": {
+            "21-40": 0.167,
+            "41-50": 0.263,
+            "51-60": 0.155,
+            "61-80": 0.089
+          },
+          "2": {
+            "21-40": 0.333,
+            "41-50": 0.329,
+            "51-60": 0.264,
+            "61-80": 0.266
+          },
+          "3": {
+            "21-40": 0.167,
+            "41-50": 0.026,
+            "51-60": 0.078,
+            "61-80": 0.101
+          }
+        }
+      },
+      {
         "q": "Mean max HR by exercise angina",
         "a": {
           "0": 155.66,
@@ -327,13 +356,35 @@
     ]
   },
   "figures": [
-    "outputs\\heart_health\\figures\\01_age_by_target.png",
-    "outputs\\heart_health\\figures\\02_sex_target.png",
-    "outputs\\heart_health\\figures\\03_correlation.png",
-    "outputs\\heart_health\\figures\\04_chest_pain.png",
-    "outputs\\heart_health\\figures\\05_thalach.png",
-    "outputs\\heart_health\\figures\\06_pairplot_risk.png"
+    "outputs/heart_health/figures/01_age_by_target.png",
+    "outputs/heart_health/figures/02_sex_target.png",
+    "outputs/heart_health/figures/03_correlation.png",
+    "outputs/heart_health/figures/04_chest_pain.png",
+    "outputs/heart_health/figures/05_thalach.png",
+    "outputs/heart_health/figures/06_pairplot_risk.png"
   ],
+  "data_dictionary": {
+    "age": "Patient age",
+    "sex": "1 = male, 0 = female",
+    "cp": "Chest pain type (0-3)",
+    "trestbps": "Resting blood pressure (mm Hg)",
+    "chol": "Serum cholesterol (mg/dl)",
+    "fbs": "Fasting blood sugar > 120 mg/dl",
+    "restecg": "Resting ECG result (0-2)",
+    "thalach": "Maximum heart rate achieved",
+    "exang": "Exercise-induced angina",
+    "oldpeak": "ST depression vs rest",
+    "slope": "Peak exercise ST slope",
+    "ca": "Major vessels colored by fluoroscopy",
+    "thal": "Thalassemia code",
+    "target": "Heart-disease diagnosis (1 = yes)"
+  },
+  "additional_resources": [
+    "https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset",
+    "UCI Heart Disease data documentation",
+    "docs/CASE_STUDY.md, docs/SOLUTION_GUIDE.md"
+  ],
+  "resume_snippet": "Pulse of Prevention: Heart Health Data Analysis (Python, Pandas, Matplotlib, Seaborn)\n- Conducted in-depth analysis of cardiology data, identifying critical risk factors.\n- Executed data cleaning and preprocessing, then a logistic baseline for risk ranking.\n- Delivered visualizations and prevention recommendations for HealthPulse Analytics.",
   "stakeholders": {
     "internal": [
       "Management",
