@@ -1,0 +1,349 @@
+{
+  "slug": "heart_health",
+  "code": "EDA 03",
+  "title": "Pulse of Prevention: Analyzing Heart Health for Better Outcomes",
+  "dataset": "Heart disease clinical records (Kaggle johnsmith88/heart-disease-dataset / UCI Cleveland family)",
+  "overview": "HealthPulse Analytics profiles cardiology patients to find demographic and clinical factors linked to heart-disease diagnosis and to support earlier prevention.",
+  "problem_statement": "The institute needs a high-risk patient profile from age, sex, chest pain, blood pressure, cholesterol, ECG, exercise tests, fluoroscopy vessel counts, and thalassemia \u2014 then clear prevention actions for clinicians and patients.",
+  "methodology": [
+    "Validate types, map target to binary disease, drop duplicates, and winsorize extreme labs.",
+    "Describe demographics and clinical distributions.",
+    "Correlate features with diagnosis; compare groups with t-tests and crosstabs.",
+    "Fit a standardized logistic regression with a stratified hold-out set (AUC, F1).",
+    "State ethical limits: this is decision support, not an autonomous diagnosis."
+  ],
+  "data_overview": {
+    "rows_raw": 303,
+    "rows_clean": 302,
+    "disease_prevalence": 0.543,
+    "mean_age": 54.42,
+    "features": [
+      "age",
+      "sex",
+      "cp",
+      "trestbps",
+      "chol",
+      "fbs",
+      "restecg",
+      "thalach",
+      "exang",
+      "oldpeak",
+      "slope",
+      "ca",
+      "thal"
+    ]
+  },
+  "key_findings": [
+    "After cleaning, disease prevalence is 54.3% of unique patient rows.",
+    "Mean age is 54.4 years; the cohort is mixed but typically middle-to-older adult.",
+    "The strongest numeric association with diagnosis in this extract is exang (r=-0.44).",
+    "Exercise angina share is 32.8%; max heart rate averages differ by angina status.",
+    "A simple logistic model reaches AUC 0.86 on unseen rows \u2014 useful for ranking risk, not replacing ECG/clinical judgment."
+  ],
+  "limitations": [
+    "UCI Cleveland-style data is small, referred, and historically male-skewed.",
+    "No follow-up time, so survival analysis is not supported despite the prompt's wording.",
+    "Coding of cp/thal/ca can differ across mirrors of the dataset.",
+    "Outlier clipping and duplicate removal change counts versus the raw Kaggle file (often duplicated).",
+    "Models can encode historical care bias; they must stay under clinician review and privacy controls."
+  ],
+  "conclusion": "Heart-disease labels in this table cluster with chest-pain type, ST depression, exercise angina, vessel counts, and max heart rate. Prevention should target those markers plus blood pressure and cholesterol, with sex-aware screening rather than a single threshold.",
+  "recommendations": [
+    "Flag patients with typical high-risk combinations (chest pain + exang + elevated oldpeak/ca) for faster cardiology review.",
+    "Pair lipid and blood-pressure programs with the age groups that dominate the cohort.",
+    "Do not treat fasting blood sugar alone as a sufficient screen; combine it with exercise ECG markers.",
+    "Keep any predictive score as a triage aid; document consent, purpose limitation, and audit of errors.",
+    "Collaborate with clinicians to recode features and refresh the model as new labeled visits arrive."
+  ],
+  "qa": {
+    "basic": [
+      {
+        "q": "Average age",
+        "a": 54.42
+      },
+      {
+        "q": "Gender distribution",
+        "a": {
+          "male": 206,
+          "female": 96
+        }
+      },
+      {
+        "q": "Average resting blood pressure",
+        "a": 131.26
+      },
+      {
+        "q": "Patients with fasting blood sugar >120",
+        "a": 45
+      },
+      {
+        "q": "Chest pain type codes present",
+        "a": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "q": "Maximum heart rate recorded",
+        "a": 202.0
+      },
+      {
+        "q": "Exercise-induced angina %",
+        "a": 32.78
+      },
+      {
+        "q": "Average cholesterol",
+        "a": 245.38
+      },
+      {
+        "q": "Patients with restecg = 2",
+        "a": 4
+      },
+      {
+        "q": "ca distribution",
+        "a": {
+          "0": 175,
+          "1": 65,
+          "2": 38,
+          "3": 20,
+          "4": 4
+        }
+      }
+    ],
+    "medium": [
+      {
+        "q": "Correlation age vs cholesterol",
+        "a": 0.1989
+      },
+      {
+        "q": "Mean max HR by exercise angina",
+        "a": {
+          "0": 155.66,
+          "1": 137.21
+        }
+      },
+      {
+        "q": "Resting BP male vs female (Welch t-test)",
+        "a": {
+          "male_mean": 130.71,
+          "female_mean": 132.44,
+          "p_value": 0.4166
+        }
+      },
+      {
+        "q": "Heart-disease rate by fasting blood sugar",
+        "a": {
+          "0": {
+            "0": 0.451,
+            "1": 0.489
+          },
+          "1": {
+            "0": 0.549,
+            "1": 0.511
+          }
+        }
+      },
+      {
+        "q": "Heart-disease rate by vessel count (ca)",
+        "a": {
+          "0": {
+            "0": 0.257,
+            "1": 0.677,
+            "2": 0.816,
+            "3": 0.85,
+            "4": 0.25
+          },
+          "1": {
+            "0": 0.743,
+            "1": 0.323,
+            "2": 0.184,
+            "3": 0.15,
+            "4": 0.75
+          }
+        }
+      },
+      {
+        "q": "Average oldpeak by chest pain type",
+        "a": {
+          "0": 1.352,
+          "1": 0.316,
+          "2": 0.807,
+          "3": 1.383
+        }
+      },
+      {
+        "q": "Thalassemia vs target",
+        "a": {
+          "0": {
+            "0": 0.5,
+            "1": 0.667,
+            "2": 0.218,
+            "3": 0.761
+          },
+          "1": {
+            "0": 0.5,
+            "1": 0.333,
+            "2": 0.782,
+            "3": 0.239
+          }
+        }
+      },
+      {
+        "q": "Common risk combinations among disease=1",
+        "a": [
+          {
+            "cp": 2,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 2,
+            "counts": 41
+          },
+          {
+            "cp": 1,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 2,
+            "counts": 30
+          },
+          {
+            "cp": 0,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 2,
+            "counts": 23
+          },
+          {
+            "cp": 2,
+            "fbs": 1,
+            "exang": 0,
+            "thal": 2,
+            "counts": 10
+          },
+          {
+            "cp": 0,
+            "fbs": 0,
+            "exang": 1,
+            "thal": 2,
+            "counts": 6
+          },
+          {
+            "cp": 2,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 3,
+            "counts": 6
+          },
+          {
+            "cp": 3,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 2,
+            "counts": 5
+          },
+          {
+            "cp": 1,
+            "fbs": 0,
+            "exang": 0,
+            "thal": 3,
+            "counts": 4
+          }
+        ]
+      },
+      {
+        "q": "Clinical means disease vs no disease",
+        "a": {
+          "disease": {
+            "age": 52.59,
+            "chol": 241.03,
+            "trestbps": 129.13,
+            "thalach": 158.38,
+            "oldpeak": 0.59
+          },
+          "no_disease": {
+            "age": 56.6,
+            "chol": 250.54,
+            "trestbps": 133.79,
+            "thalach": 139.2,
+            "oldpeak": 1.55
+          }
+        }
+      }
+    ],
+    "advanced": [
+      {
+        "q": "Strongest correlations with target",
+        "a": {
+          "exang": -0.436,
+          "oldpeak": -0.435,
+          "cp": 0.432,
+          "thalach": 0.42,
+          "ca": -0.409,
+          "slope": 0.344,
+          "thal": -0.343,
+          "sex": -0.284
+        }
+      },
+      {
+        "q": "Logistic regression hold-out AUC",
+        "a": 0.8648
+      },
+      {
+        "q": "Logistic coefficients (standardized)",
+        "a": {
+          "cp": 0.993,
+          "sex": -0.738,
+          "ca": -0.661,
+          "thal": -0.635,
+          "thalach": 0.616,
+          "oldpeak": -0.595,
+          "exang": -0.504,
+          "chol": -0.446,
+          "slope": 0.291,
+          "restecg": 0.212,
+          "trestbps": -0.184,
+          "age": 0.025,
+          "fbs": 0.008
+        }
+      },
+      {
+        "q": "Classification report (weighted avg f1)",
+        "a": 0.773
+      },
+      {
+        "q": "Mean ST slope by chest pain type",
+        "a": {
+          "0": 1.259,
+          "1": 1.68,
+          "2": 1.5,
+          "3": 1.261
+        }
+      },
+      {
+        "q": "Thalassemia note on survival",
+        "a": "Dataset is cross-sectional (no follow-up time); survival curves are not identifiable. Age vs thal by target is reported as a proxy only."
+      }
+    ]
+  },
+  "figures": [
+    "outputs\\heart_health\\figures\\01_age_by_target.png",
+    "outputs\\heart_health\\figures\\02_sex_target.png",
+    "outputs\\heart_health\\figures\\03_correlation.png",
+    "outputs\\heart_health\\figures\\04_chest_pain.png",
+    "outputs\\heart_health\\figures\\05_thalach.png",
+    "outputs\\heart_health\\figures\\06_pairplot_risk.png"
+  ],
+  "stakeholders": {
+    "internal": [
+      "Management",
+      "Healthcare providers",
+      "Data analysts"
+    ],
+    "external": [
+      "Patients",
+      "Cardiology research institute",
+      "Policymakers"
+    ]
+  }
+}
